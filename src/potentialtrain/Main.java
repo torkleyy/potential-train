@@ -1,0 +1,6 @@
+package potentialtrain;
+
+public class Main {
+    public static void main() {
+    }
+}

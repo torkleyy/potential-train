@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>250</y>
+      <w>240</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>DatabaseConnector
+--
+Connection con
+--
+void close()
+Question[] getAllQuestions()
+void addQuestion(Question)
+void removeQuestion(Question)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>270</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+Producer
+--
+
+--
+void createMessage(String)
+void register(Observer)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>500</x>
+      <y>300</y>
+      <w>250</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>230.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>850</y>
+      <w>310</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>Question
+--
+String question
+Answer[] answers
+int correct
+--
+Question(String question,
+String answer1,
+String answer2,
+String answer3)
+--
+String getQuestion()
+Answer[] getAnswers()
+boolean isCorrectAnswer(int answer)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>540</y>
+      <w>310</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>GameState
+--
+int score
+Question[] questions
+int currentQuestion
+--
+GameState()
+--
+boolean registerAnswerInput(String)
+Question getCurrentQuestion()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>320</y>
+      <w>340</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>320.0;10.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>720</y>
+      <w>70</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+
+
+besitzt
+m1=0..n</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>660</x>
+      <y>610</y>
+      <w>230</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+Observer
+--
+
+--
+void receiveMessage(String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>450</y>
+      <w>30</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>220</x>
+      <y>430</y>
+      <w>100</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+besitzt
+m1=1</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>QuestionModifier
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>530</x>
+      <y>900</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Answer
+--
+String desc
+int id
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

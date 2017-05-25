@@ -36,7 +36,7 @@ public class DatabaseConnector implements AutoCloseable {
 
 	@Override
 	public void close() throws Exception {
-	    if (con != null && !con.isClosed()) {
+	    if (!con.isClosed()) {
 		con.close();
 	    }
 	}

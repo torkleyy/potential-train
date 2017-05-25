@@ -1,7 +1,6 @@
 package question;
 
 public class Answer {
-	
 	/**
 	 * The ID of this Answer
 	 */
@@ -32,5 +31,4 @@ public class Answer {
 	public String toString() {
 		return desc;
 	}
-	
 }

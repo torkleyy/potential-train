@@ -6,6 +6,7 @@ reated by https://www.gitignore.io/api/java,bluej,eclipse,intellij
 # Editor preferences for a class etc, see http://lists.bluej.org/pipermail/bluej-discuss/2003-May/002351.html
 *.ctxt
 
+bluej.pkg
 # Duplicate of project file, see http://www.hs-owl.de/fb5/labor/it/de/if1/vl/IF1JavaOhneBluej.pdf, page 4
 bluej.pkh
 ### Eclipse ###
@@ -63,6 +64,7 @@ local.properties
 ### Eclipse Patch ###
 # Eclipse Core		
 .project
+.eclipse
 
 # JDT-specific (Eclipse Java Development Tools)		
 .classpath

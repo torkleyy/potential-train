@@ -5,15 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnector implements AutoCloseable {
-    private Connection con;
+    private final Connection con;
 
     public DatabaseConnector() {
         try {
             Class.forName("org.hsqldb.jdbcDriver").newInstance();
-            con = DriverManager.getConnection("jdbc:hsqldb:question_library");
+            this.con = DriverManager.getConnection("jdbc:hsqldb:question_library");
         } catch (SQLException | InstantiationException | IllegalAccessException |
                 ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

@@ -61,4 +61,8 @@ public class Question {
         }
         return sb.toString();
     }
+
+    public String getQuestion() {
+        return question;
+    }
 }

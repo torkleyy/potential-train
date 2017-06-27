@@ -14,7 +14,7 @@ public class DatabaseTester {
 	}
 
 	@Test
-	public void test() {
+	public void testGetQuestions() {
 		for (Question q: c.getAllQuestions()) {
 			System.out.println(q.toString());
 		}

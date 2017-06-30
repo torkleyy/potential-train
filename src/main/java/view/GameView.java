@@ -4,7 +4,7 @@ import controller.GameController;
 import observe.GameObserver;
 
 public class GameView implements GameObserver {
-	
+
     private final GameController controller;
 
     public GameView(GameController controller) {
@@ -13,7 +13,7 @@ public class GameView implements GameObserver {
 
     @Override
     public void onError(String message) {
-    	
+
     }
 
     @Override

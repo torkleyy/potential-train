@@ -10,10 +10,10 @@ public final class DatabaseEditor {
 	
 	public static void main(String[] args) {
 		/*addQuestion(
-				"Wie heißen Markus Müllers Söhne",
-				"Ludwig & Lorenz",
-				"Jonas & Justus",
-				"Björn & Benjamin");*/
+				"Herr Kroegers lieblings Fortbewegungsmittel ist, dass...",
+				"Fahrrad",
+				"Auto",
+				"Skateboard");*/
 	}
 	
 	public static void addQuestion(String question, String a1, String a2, String a3) {

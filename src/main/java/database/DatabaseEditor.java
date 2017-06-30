@@ -6,7 +6,7 @@ import question.Question;
 
 public final class DatabaseEditor {
 
-    private static DatabaseConnector con = new DatabaseConnector();
+    private static DatabaseConnector con = DatabaseConnector.getInstance();
 
     public static void main(String[] args) {
         /*addQuestion(

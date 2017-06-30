@@ -18,7 +18,7 @@ public class GameModel extends Observable<GameObserver> {
     private final int POINTS_PER_QUESTION = 1;
 
     public GameModel() {
-        this.connector = new DatabaseConnector();
+        this.connector = DatabaseConnector.getInstance();
         currentquestion = -1;
         score = 0;
         Question[] all = connector.getAllQuestions();

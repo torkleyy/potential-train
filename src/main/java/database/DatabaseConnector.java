@@ -15,15 +15,15 @@ import question.Question;
 public class DatabaseConnector implements AutoCloseable {
 
     private final String DEFAULT_TABLE_NAME = "questions";
-
     private final String FILE_LOCATION = "database"+File.separator;
-
     private final String COLUMN_QUESTION = "Question";
     private final String[] COLUMN_ANSWER = new String[] { "Answer1", "Answer2", "Answer3" };
+    
+    private static final DatabaseConnector instance = new DatabaseConnector();
 
     private Connection con;
 
-    public DatabaseConnector() {
+    private DatabaseConnector() {
         establishConnection();
     }
 
@@ -157,6 +157,10 @@ public class DatabaseConnector implements AutoCloseable {
 
     private void onSQLException(SQLException e) {
         e.printStackTrace();//TODO uncool
+    }
+    
+    public static DatabaseConnector getInstance() {
+        return instance;
     }
 
 }

@@ -27,7 +27,6 @@ public class DatabaseConnector extends Observable<ErrorHandler> implements AutoC
     private final Connection con;
 
     private DatabaseConnector() {
-
         con = establishConnection();
     }
 
@@ -172,6 +171,7 @@ public class DatabaseConnector extends Observable<ErrorHandler> implements AutoC
             }
         });
     }
+
     
     public static DatabaseConnector getInstance() {
         return instance;

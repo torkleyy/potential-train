@@ -9,7 +9,7 @@ import question.Question;
     private static DatabaseConnector con = DatabaseConnector.getInstance();
 	
 	public static void main(String[] args) {
-		/*addQuestion(
+	    /*
 				"Herr Kroegers lieblings Fortbewegungsmittel ist, dass...",
 				"Fahrrad",
 				"Auto",

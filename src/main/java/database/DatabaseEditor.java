@@ -16,7 +16,6 @@ import question.Question;
 				"Skateboard");*/
     }
 
-
 	
 	public static void addQuestion(String question, String a1, String a2, String a3) {
 		ArrayList<String> list = new ArrayList<>(3);

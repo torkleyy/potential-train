@@ -6,6 +6,12 @@ import question.Question;
 
 public class GameView implements GameObserver {
 
+    private final GameController controller;
+
+    public GameView() {
+        controller = new GameController();
+    }
+
     @Override
     public void onError(String message) {
 

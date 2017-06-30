@@ -52,7 +52,8 @@ public class GameModel extends Observable<GameObserver> {
 	 * if there are no more questions available
 	 */
 	public Question getNextQuestion() {
-		if (++currentquestion >= questionlist.length) {
+		currentquestion++;
+		if (currentquestion >= questionlist.length) {
 			return null;
 		}
 		return questionlist[currentquestion];

@@ -70,4 +70,8 @@ public class GameModel extends Observable<GameObserver> {
         }
         return false;
     }
+    
+    public int getScore() {
+        return score;
+    }
 }

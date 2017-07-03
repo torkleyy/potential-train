@@ -60,8 +60,12 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
     
     /**
      * You cannot add Entries that contain the CharSequence "::"
+<<<<<<< HEAD
      * If you attempt to add an entry which contains this sequence,
      * a message will be sent to the view.
+=======
+     * If an entry 
+>>>>>>> HighscoreModel updated and tested.
      * @param name The name of the participant
      * @param score The score of the participant
      */

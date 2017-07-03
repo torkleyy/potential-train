@@ -7,7 +7,7 @@ import question.Question;
 
 public class DatabaseTester {
 
-    private DatabaseConnector c = new DatabaseConnector();
+    private DatabaseConnector c = DatabaseConnector.getInstance();
 
     @Before
     public void setUp() throws Exception {

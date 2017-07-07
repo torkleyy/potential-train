@@ -21,6 +21,8 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
 
     public HighscoreModel() {
         entries = new HashMap<>();
+        
+        load();
     }
     
     /**
@@ -43,7 +45,7 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
     /**
      * Writes the current highscores into a file
      */
-    public void save() {
+    private void save() {
         try {
             File f = new File(PATH);
             if (!f.exists()) {
@@ -61,7 +63,7 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
         }
     }
 
-    public void load() {
+    private void load() {
         try {
             File f = new File(PATH);
             if (!f.exists()) {

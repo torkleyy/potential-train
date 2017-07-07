@@ -17,8 +17,11 @@ public class HighscoreTester {
         model.addEntry("Hans", 10);
         model.addEntry("Jürgen", 12);
         model.addEntry("Dieter", 8);
-
-        assert (model.toString().equals("Scores:\nHans: 10\nJürgen: 12\nDieter: 8\n"));
+        model.addEntry("Bauer", 677);
+        
+        System.out.println(model.toString());
+        
+        //assert (model.toString().equals("Scores:\nBauer: 677\nJürgen: 12\nHans: 10\nDieter: 8\n"));
     }
     
     /*@Test

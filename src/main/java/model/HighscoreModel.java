@@ -6,21 +6,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import observe.HighscoreObserver;
 import observe.Observable;
 
 public class HighscoreModel extends Observable<HighscoreObserver> {
 
-    private Map<String, Integer> entries;
+    private List<HighscoreEntry> entries;
 
     private final String PATH = "highscores.hs";
     private final String SEPARATOR = "::";
+    private final int MAX_ENTRIES = 20;
 
     public HighscoreModel() {
-        entries = new HashMap<>();
+        entries = new ArrayList<>();
         
         load();
     }
@@ -35,11 +36,40 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
         if (name.contains(SEPARATOR)) {
             return;
         }
-        if (entries.containsKey(name) && entries.get(name) > score) {
-            return;
-        } 
-        entries.put(name, score);
+
+        HighscoreEntry entry = new HighscoreEntry(name, score);
+        if (entries.size() == 0) {
+            entries.add(entry);
+        } else {
+            for (int i = 0; i < entries.size()+1; i++) {
+                
+                if (i == entries.size()) {
+                    if (i < MAX_ENTRIES) {
+                        entries.add(entry);
+                    }
+                    break;
+                }
+                
+                if (entries.get(i).getScore() < score) {
+                    entries.add(i, entry);
+                    break;
+                }
+            }
+            
+            if (entries.size() > MAX_ENTRIES) {
+                entries.remove(MAX_ENTRIES);
+            }
+        }
+
         save();
+    }
+    
+    /**
+     * Returns an Array of all HighscoreEntries in this list.
+     */
+    public HighscoreEntry[] getElements() {
+        HighscoreEntry[] list = new HighscoreEntry[entries.size()];
+        return list = entries.toArray(list);
     }
     
     /**
@@ -48,13 +78,14 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
     private void save() {
         try {
             File f = new File(PATH);
-            if (!f.exists()) {
-                f.createNewFile();
+            if (f.exists()) {
+                f.delete();
             }
+            f.createNewFile();
             
             BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-            for (String name: entries.keySet()) {
-                writer.write(name + SEPARATOR + entries.get(name)+"\n");
+            for (HighscoreEntry entry: entries) {
+                writer.write(entry.getName() + SEPARATOR + entry.getScore()+"\n");
             }
             writer.close();
             
@@ -79,7 +110,7 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
                 try {
                     
                     int score = Integer.parseInt(value);
-                    entries.put(name, score);
+                    entries.add(new HighscoreEntry(name, score));
                             
                 } catch (NumberFormatException e) {
                     //TODO Entry could not be read
@@ -89,7 +120,7 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
 
 
         } catch (IOException e) {
-            //What here... I still don't fully get your observer schematic
+            //TODO What here... I still don't fully get your observer schematic
         }
     }
     
@@ -98,8 +129,8 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Scores:\n");
-        for (String name: entries.keySet()) {
-            sb.append(name + ": "+entries.get(name)+"\n");
+        for (HighscoreEntry entry: entries) {
+            sb.append(entry.toString()+"\n");
         }
         return sb.toString();
     }

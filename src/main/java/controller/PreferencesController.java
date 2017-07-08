@@ -19,9 +19,11 @@ public class PreferencesController {
     
     public void setMusicEnabled(boolean enabled) {
         model.setMusicEnabled(enabled);
+        model.save();
     }
     public void setSoundsEnabled(boolean enabled) {
         model.setSoundsEnabled(enabled);
+        model.save();
     }
     
 }

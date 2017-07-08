@@ -13,79 +13,54 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class PreferencesModel extends Observable<PreferencesObserver> {
 
-    private boolean musicEnabled  = true;
-    private boolean soundsEnabled = true;
-
+    private Preferences prefs;
     private final String PATH = "preferences.xml";
 
-    /**
-     * This variable has to prevent the algorithm to enter an infite loop as during the loading process
-     * a temporal PreferencesModel-instance will be created which would itself call the loading process again.
-     * Which means, the first PreferencesModel sets this variable to 'true' in order to prevent the other Models
-     * from loading the file again.
-     */
-    private static boolean objectcreating = false;
     
     public PreferencesModel() {
+        try {
+            File file = new File(PATH);
 
-        if (!objectcreating) {
+            if (file.exists()) {
+                JAXBContext jaxbContext = JAXBContext.newInstance(Preferences.class);
 
-            objectcreating = true;
-            try {
+                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+                prefs = (Preferences) jaxbUnmarshaller.unmarshal(file);
 
-                File file = new File(PATH);
 
-                if (file.exists()) {
-
-                    JAXBContext jaxbContext = JAXBContext.newInstance(PreferencesModel.class);
-
-                    Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-                    PreferencesModel obj = (PreferencesModel) jaxbUnmarshaller.unmarshal(file);
-
-                    musicEnabled = obj.isMusicEnabled();
-                    soundsEnabled = obj.isSoundsEnabled();
-                } else {
-                    save();
-                }
-
-            } catch (Exception e) {
-                onException(e);
+            } else {
+                prefs = new Preferences();
+                save();
             }
-            objectcreating = false;
+        } catch (Exception e) {
+            onException(e);
         }
-
-
     }
 
-    @XmlElement
     public boolean isMusicEnabled() {
-        return musicEnabled;
+        return prefs.isMusicEnabled();
     }
-    @XmlElement
     public boolean isSoundsEnabled() {
-        return soundsEnabled;
+        return prefs.isSoundsEnabled();
     }
     
     public void setMusicEnabled(boolean enabled) {
-        musicEnabled = enabled;
-        save();
+        prefs.setMusicEnabled(enabled);
     }
     public void setSoundsEnabled(boolean enabled) {
-        soundsEnabled = enabled;
-        save();
+        prefs.setSoundsEnabled(enabled);
     }
 
     
-    private void save() {
+    public void save() {
         try {
-            JAXBContext  contextObj = JAXBContext.newInstance(PreferencesModel.class);
+            JAXBContext  contextObj = JAXBContext.newInstance(Preferences.class);
             Marshaller marshallerObj = contextObj.createMarshaller();
 
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshallerObj.marshal(this, new FileOutputStream(PATH));
+            marshallerObj.marshal(prefs, new FileOutputStream(PATH));
 
         } catch (Exception e) {
             onException(e);
@@ -105,8 +80,7 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
     @Override
     public String toString() {
         return "PreferencesModel{" +
-                "musicEnabled=" + musicEnabled +
-                ", soundsEnabled=" + soundsEnabled +
+                "prefs=" + prefs +
                 '}';
     }
 }

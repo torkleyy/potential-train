@@ -17,6 +17,7 @@ public class PreferencesTester {
         System.out.println(model.toString());
         model.setMusicEnabled(false);
         model.setSoundsEnabled(true);
+        model.save();
         System.out.println(model.toString());
 
     }

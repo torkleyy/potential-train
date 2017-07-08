@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import observe.HighscoreObserver;
+import observe.Notifier;
 import observe.Observable;
 
 public class HighscoreModel extends Observable<HighscoreObserver> {
@@ -67,7 +68,7 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
     /**
      * Returns an Array of all HighscoreEntries in this list.
      */
-    public HighscoreEntry[] getElements() {
+    private HighscoreEntry[] getElements() {
         HighscoreEntry[] list = new HighscoreEntry[entries.size()];
         return list = entries.toArray(list);
     }
@@ -124,7 +125,15 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
         }
     }
     
-    
+    public void requestUpdate() {
+        final HighscoreEntry[] elements = getElements();
+        notifyObservers(new Notifier<HighscoreObserver>() {
+            @Override
+            public void notifyObject(HighscoreObserver obj) {
+                obj.onRetrieveScores(elements);
+            }
+        });
+    }
     
     @Override
     public String toString() {

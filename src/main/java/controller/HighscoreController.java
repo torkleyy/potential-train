@@ -14,7 +14,11 @@ public class HighscoreController {
     public void addEntry(String name, int score) {
         model.addEntry(name, score);
     }
-    public HighscoreEntry[] getElements() {
-        return model.getElements();
+
+    /**
+     * Requests the HighscoreModel to send you the current list of HighscoreEntries
+     */
+    public void requestUpdate() {
+        model.requestUpdate();
     }
 }

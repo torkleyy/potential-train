@@ -1,4 +1,9 @@
 package observe;
 
-public interface HighscoreObserver {
+import model.HighscoreEntry;
+
+public interface HighscoreObserver extends ErrorHandler {
+
+    public void onRetrieveScores(HighscoreEntry[] entries);
+
 }

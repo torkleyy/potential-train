@@ -91,7 +91,7 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
         }
     }
 
-    private void onException(Throwable e) {
+    private void onException(Exception e) {
         e.printStackTrace();
         notifyObservers(new Notifier<PreferencesObserver>() {
             @Override

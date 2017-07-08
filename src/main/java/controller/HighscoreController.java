@@ -13,6 +13,7 @@ public class HighscoreController {
     
     public void addEntry(String name, int score) {
         model.addEntry(name, score);
+        model.save();
     }
 
     /**

@@ -15,7 +15,7 @@ import observe.Observable;
 
 public class HighscoreModel extends Observable<HighscoreObserver> {
 
-    private List<HighscoreEntry> entries;
+    private final List<HighscoreEntry> entries;
 
     private final String PATH = "highscores.hs";
     private final String SEPARATOR = "::";
@@ -33,16 +33,21 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
             BufferedReader reader = new BufferedReader(new FileReader(f));
             String s;
             while ((s = reader.readLine()) != null) {
-                int si = s.indexOf(SEPARATOR);
-                String name = s.substring(0, si);
-                String value = s.substring(si+SEPARATOR.length(), s.length());
+                String[] parts = s.split(SEPARATOR);
+                String name = parts[0];
+                String value = parts[1];
                 try {
 
                     int score = Integer.parseInt(value);
                     entries.add(new HighscoreEntry(name, score));
 
                 } catch (NumberFormatException e) {
-                    //TODO Entry could not be read
+                    notifyObservers(new Notifier<HighscoreObserver>() {
+                        @Override
+                        public void notifyObject(HighscoreObserver obj) {
+                            obj.onReceiveMessage("Ein Eintrag in der Highscoreliste konnte nicht gelesen werden.");
+                        }
+                    });
                 }
             }
             reader.close();
@@ -55,12 +60,19 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
     
     /**
      * You cannot add Entries that contain the CharSequence "::"
-     * If an entry 
+     * If you attempt to add an entry which contains this sequence,
+     * a message will be sent to the view.
      * @param name The name of the participant
      * @param score The score of the participant
      */
     public void addEntry(String name, int score) {
         if (name.contains(SEPARATOR)) {
+            notifyObservers(new Notifier<HighscoreObserver>() {
+                @Override
+                public void notifyObject(HighscoreObserver obj) {
+                    obj.onReceiveMessage("Der Name darf die Zeichenfolge \""+SEPARATOR+"\" nicht enthalten.");
+                }
+            });
             return;
         }
 
@@ -87,8 +99,6 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
                 entries.remove(MAX_ENTRIES);
             }
         }
-
-        save();
     }
     
     /**
@@ -96,13 +106,13 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
      */
     private HighscoreEntry[] getElements() {
         HighscoreEntry[] list = new HighscoreEntry[entries.size()];
-        return list = entries.toArray(list);
+        return entries.toArray(list);
     }
     
     /**
      * Writes the current highscores into a file
      */
-    private void save() {
+    public void save() {
         try {
             File f = new File(PATH);
             if (f.exists()) {
@@ -121,7 +131,7 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
         }
     }
 
-    private void onException(Throwable e) {
+    private void onException(Exception e) {
         e.printStackTrace();
         notifyObservers(new Notifier<HighscoreObserver>() {
             @Override

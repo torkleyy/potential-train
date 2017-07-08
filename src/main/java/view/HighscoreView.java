@@ -1,5 +1,7 @@
 package view;
 
+import observe.HighscoreObserver;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

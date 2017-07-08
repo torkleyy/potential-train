@@ -8,15 +8,14 @@ import java.awt.Label;
 import java.awt.Toolkit;
 import java.io.File;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
+import observe.GameObserver;
 import question.Answer;
 import question.Question;
 import controller.GameController;
 
-public class GameView extends JFrame {
+public class GameView extends JFrame implements GameObserver {
 
     /**
      * 
@@ -75,7 +74,7 @@ public class GameView extends JFrame {
         answer3=new Button("Antwort 3");  
         answer3.setBounds(200,270,200,50);// setting button position  
         getContentPane().add(answer3);//adding button into frame  
-        Button z=new Button("Zurück");  
+        Button z=new Button("Zurï¿½ck");  
         z.setBounds(10,320,80,25);// setting button position  
         getContentPane().add(z);//adding button into frame  
         setSize(600,400);//frame size 300 width and 300 height  
@@ -93,4 +92,19 @@ public class GameView extends JFrame {
         answer1.setLabel(answers[2].toString());
     }
 
+    @Override
+    public void onError(String message) {
+        JOptionPane.showMessageDialog(this, "Es ist ein Fehler aufgetreten:\n" +
+                message+"\n\nDas Programm muss beendet werden.");
+    }
+
+    @Override
+    public void onAnswerCorrect() {
+
+    }
+
+    @Override
+    public void onAnswerWrong() {
+
+    }
 }

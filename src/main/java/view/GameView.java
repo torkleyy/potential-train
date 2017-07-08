@@ -17,6 +17,11 @@ public class GameView implements GameObserver {
     }
 
     @Override
+    public void onRetrieveQuestion() {
+
+    }
+
+    @Override
     public void onAnswerCorrect() {
 
     }

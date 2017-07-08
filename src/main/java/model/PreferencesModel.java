@@ -1,56 +1,69 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 import observe.Notifier;
 import observe.Observable;
 import observe.PreferencesObserver;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class PreferencesModel extends Observable<PreferencesObserver> {
 
-    private boolean musicEnabled;
-    private boolean soundsEnabled;
+    private boolean musicEnabled  = true;
+    private boolean soundsEnabled = true;
 
-    private final String PATH = "preferences.pf";
+    private final String PATH = "preferences.xml";
+
+    /**
+     * This variable has to prevent the algorithm to enter an infite loop as during the loading process
+     * a temporal PreferencesModel-instance will be created which would itself call the loading process again.
+     * Which means, the first PreferencesModel sets this variable to 'true' in order to prevent the other Models
+     * from loading the file again.
+     */
+    private static boolean objexists = false;
     
     public PreferencesModel() {
-        musicEnabled = true;
-        soundsEnabled = true;
 
-        try {
-            File f = new File(PATH);
-            if (!f.exists()) {
-                return;
-            }
+        if (!objexists) {
 
-            BufferedReader reader = new BufferedReader(new FileReader(f));
-            String s = reader.readLine();
+            objexists = true;
+            try {
 
-            if (s != null && s.length() > 1) {
-                if (s.charAt(0) == 'f') {
-                    musicEnabled = false;
+                File file = new File(PATH);
+
+                if (file.exists()) {
+
+                    JAXBContext jaxbContext = JAXBContext.newInstance(PreferencesModel.class);
+
+                    Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+                    PreferencesModel obj = (PreferencesModel) jaxbUnmarshaller.unmarshal(file);
+
+                    musicEnabled = obj.getMusicEnabled();
+                    soundsEnabled = obj.getSoundsEnabled();
+                } else {
+                    save();
                 }
-                if (s.charAt(1) == 'f') {
-                    soundsEnabled = false;
-                }
+
+            } catch (Exception e) {
+                onException(e);
             }
-
-            reader.close();
-
-
-        } catch (IOException e) {
-            onException(e);
         }
+
+
     }
-    
+
+    @XmlElement
     public boolean getMusicEnabled() {
         return musicEnabled;
     }
+    @XmlElement
     public boolean getSoundsEnabled() {
         return soundsEnabled;
     }
@@ -67,28 +80,13 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
     
     private void save() {
         try {
-            File f = new File(PATH);
-            if (f.exists()) {
-                f.delete();
-            }
-            f.createNewFile();
-            
-            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-            
-            if (musicEnabled) {
-                writer.write("t");
-            } else {
-                writer.write("f");
-            }
-            if (soundsEnabled) {
-                writer.write("t");
-            } else {
-                writer.write("f");
-            }
-            
-            writer.close();
-            
-        } catch (IOException e) {
+            JAXBContext  contextObj = JAXBContext.newInstance(PreferencesModel.class);
+            Marshaller marshallerObj = contextObj.createMarshaller();
+
+            marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshallerObj.marshal(this, new FileOutputStream(PATH));
+
+        } catch (Exception e) {
             onException(e);
         }
     }
@@ -101,5 +99,10 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
                 obj.onError("Es ist ein Fehler beim Laden oder Speichern der Einstellungen aufgetreten.");
             }
         });
+    }
+
+    @Override
+    public String toString() {
+        return "Preferences:"+"\n\tMusic: "+musicEnabled+"\n\tSounds: "+soundsEnabled;
     }
 }

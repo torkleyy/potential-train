@@ -9,10 +9,6 @@ public class DatabaseTester {
 
     private DatabaseConnector c = DatabaseConnector.getInstance();
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @Test
     public void testGetQuestions() {
         for (Question q: c.getAllQuestions()) {

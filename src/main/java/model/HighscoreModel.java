@@ -23,8 +23,34 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
 
     public HighscoreModel() {
         entries = new ArrayList<>();
-        
-        load();
+
+        try {
+            File f = new File(PATH);
+            if (!f.exists()) {
+                return;
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+            String s;
+            while ((s = reader.readLine()) != null) {
+                int si = s.indexOf(SEPARATOR);
+                String name = s.substring(0, si);
+                String value = s.substring(si+SEPARATOR.length(), s.length());
+                try {
+
+                    int score = Integer.parseInt(value);
+                    entries.add(new HighscoreEntry(name, score));
+
+                } catch (NumberFormatException e) {
+                    //TODO Entry could not be read
+                }
+            }
+            reader.close();
+
+
+        } catch (IOException e) {
+            onException(e);
+        }
     }
     
     /**
@@ -89,42 +115,22 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
                 writer.write(entry.getName() + SEPARATOR + entry.getScore()+"\n");
             }
             writer.close();
-            
+
         } catch (IOException e) {
-            //What here... I still don't fully get your observer schematic
+            onException(e);
         }
     }
 
-    private void load() {
-        try {
-            File f = new File(PATH);
-            if (!f.exists()) {
-                return;
+    private void onException(Throwable e) {
+        e.printStackTrace();
+        notifyObservers(new Notifier<HighscoreObserver>() {
+            @Override
+            public void notifyObject(HighscoreObserver obj) {
+                obj.onError("Es ist ein Fehler beim Laden oder Speichern der Highscores aufgetreten.");
             }
-
-            BufferedReader reader = new BufferedReader(new FileReader(f));
-            String s;
-            while ((s = reader.readLine()) != null) {
-                int si = s.indexOf(SEPARATOR);
-                String name = s.substring(0, si);
-                String value = s.substring(si+SEPARATOR.length(), s.length());
-                try {
-                    
-                    int score = Integer.parseInt(value);
-                    entries.add(new HighscoreEntry(name, score));
-                            
-                } catch (NumberFormatException e) {
-                    //TODO Entry could not be read
-                }
-            }
-            reader.close();
-
-
-        } catch (IOException e) {
-            //TODO What here... I still don't fully get your observer schematic
-        }
+        });
     }
-    
+
     public void requestUpdate() {
         final HighscoreEntry[] elements = getElements();
         notifyObservers(new Notifier<HighscoreObserver>() {

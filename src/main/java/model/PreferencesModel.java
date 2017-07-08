@@ -7,21 +7,45 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import observe.Notifier;
 import observe.Observable;
 import observe.PreferencesObserver;
 
 public class PreferencesModel extends Observable<PreferencesObserver> {
 
-    public boolean musicEnabled;
-    public boolean soundsEnabled;
+    private boolean musicEnabled;
+    private boolean soundsEnabled;
 
     private final String PATH = "preferences.pf";
     
     public PreferencesModel() {
         musicEnabled = true;
         soundsEnabled = true;
-        
-        load();
+
+        try {
+            File f = new File(PATH);
+            if (!f.exists()) {
+                return;
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+            String s = reader.readLine();
+
+            if (s != null && s.length() > 1) {
+                if (s.charAt(0) == 'f') {
+                    musicEnabled = false;
+                }
+                if (s.charAt(1) == 'f') {
+                    soundsEnabled = false;
+                }
+            }
+
+            reader.close();
+
+
+        } catch (IOException e) {
+            onException(e);
+        }
     }
     
     public boolean getMusicEnabled() {
@@ -39,33 +63,7 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
         soundsEnabled = enabled;
         save();
     }
-    
-    private void load() {
-        try {
-            File f = new File(PATH);
-            if (!f.exists()) {
-                return;
-            }
 
-            BufferedReader reader = new BufferedReader(new FileReader(f));
-            String s = reader.readLine();
-            
-            if (s != null && s.length() > 1) {
-                if (s.charAt(0) == 'f') {
-                    musicEnabled = false;
-                }
-                if (s.charAt(1) == 'f') {
-                    soundsEnabled = false;
-                }
-            }
-            
-            reader.close();
-
-
-        } catch (IOException e) {
-            //TODO What here... I still don't fully get your observer schematic
-        }
-    }
     
     private void save() {
         try {
@@ -91,8 +89,17 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
             writer.close();
             
         } catch (IOException e) {
-            //What here... I still don't fully get your observer schematic
+            onException(e);
         }
     }
 
+    private void onException(Throwable e) {
+        e.printStackTrace();
+        notifyObservers(new Notifier<PreferencesObserver>() {
+            @Override
+            public void notifyObject(PreferencesObserver obj) {
+                obj.onError("Es ist ein Fehler beim Laden oder Speichern der Einstellungen aufgetreten.");
+            }
+        });
+    }
 }

@@ -4,7 +4,7 @@ import model.PreferencesModel;
 
 public class PreferencesController {
     
-    private PreferencesModel model;
+    private final PreferencesModel model;
     
     public PreferencesController() {
         model = new PreferencesModel();

@@ -5,7 +5,7 @@ import model.HighscoreModel;
 
 public class HighscoreController {
     
-    private HighscoreModel model;
+    private final HighscoreModel model;
     
     public HighscoreController() {
         model = new HighscoreModel();

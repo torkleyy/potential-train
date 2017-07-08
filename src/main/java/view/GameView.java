@@ -2,6 +2,7 @@ package view;
 
 import controller.GameController;
 import observe.GameObserver;
+import question.Question;
 
 public class GameView implements GameObserver {
 
@@ -17,7 +18,7 @@ public class GameView implements GameObserver {
     }
 
     @Override
-    public void onRetrieveQuestion() {
+    public void onRetrieveQuestion(Question q) {
 
     }
 

@@ -2,8 +2,8 @@ package model;
 
 public class HighscoreEntry {
     
-    private String name;
-    private int score;
+    private final String name;
+    private final int score;
     
     HighscoreEntry(String name, int score) {
         this.name = name;

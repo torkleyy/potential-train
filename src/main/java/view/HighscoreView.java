@@ -20,4 +20,9 @@ public class HighscoreView implements HighscoreObserver {
     public void onRetrieveScores(HighscoreEntry[] entries) {
 
     }
+
+    @Override
+    public void onReceiveMessage(String message) {
+
+    }
 }

@@ -14,6 +14,8 @@ public class HighscoreView extends JFrame implements HighscoreObserver {
      */
     private static final long serialVersionUID = 1L;
 
+    private final HighscoreController controller;
+
     /**
      * Launch the application.
      */
@@ -48,6 +50,8 @@ public class HighscoreView extends JFrame implements HighscoreObserver {
      * Create the frame.
      */
     public HighscoreView() {
+        controller = new HighscoreController();
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         

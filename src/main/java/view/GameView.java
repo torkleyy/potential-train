@@ -12,9 +12,7 @@ import java.awt.Label;
 import java.awt.Toolkit;
 import java.io.File;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 public class GameView extends JFrame implements GameObserver {
 
@@ -49,21 +47,6 @@ public class GameView extends JFrame implements GameObserver {
 
     }
 
-    @Override
-    public void onAnswerCorrect() {
-
-    }
-
-    @Override
-    public void onAnswerWrong() {
-        
-    }
-
-    @Override
-    public void onError(String message) {
-
-    }
-
     /**
      * Create the frame.
      */
@@ -92,7 +75,7 @@ public class GameView extends JFrame implements GameObserver {
         getContentPane().add(answer2);//adding button into frame  
         answer3=new Button("Antwort 3");  
         answer3.setBounds(200,270,200,50);// setting button position  
-        getContentPane().add(answer3);//adding button into frame  
+        getContentPane().add(answer3);//adding button into frame
         Button z=new Button("Zur�ck");
         z.setBounds(10,320,80,25);// setting button position  
         getContentPane().add(z);//adding button into frame  
@@ -113,4 +96,19 @@ public class GameView extends JFrame implements GameObserver {
         answer1.setLabel(answers[2].toString());
     }
 
+    @Override
+    public void onError(String message) {
+        JOptionPane.showMessageDialog(this, "Es ist ein Fehler aufgetreten:\n" +
+                message+"\n\nDas Programm muss beendet werden.");
+    }
+
+    @Override
+    public void onAnswerCorrect() {
+
+    }
+
+    @Override
+    public void onAnswerWrong() {
+
+    }
 }

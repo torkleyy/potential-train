@@ -150,13 +150,11 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
             }
         });
     }
-    
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Scores:\n");
-        for (HighscoreEntry entry: entries) {
-            sb.append(entry.toString()+"\n");
-        }
-        return sb.toString();
+        return "HighscoreModel{" +
+                "entries=" + entries.toString() +
+                '}';
     }
 }

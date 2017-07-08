@@ -16,9 +16,12 @@ public class HighscoreEntry {
     public int getScore() {
         return score;
     }
-    
+
     @Override
     public String toString() {
-        return (name+": "+score);
+        return "HighscoreEntry{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                '}';
     }
 }

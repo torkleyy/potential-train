@@ -27,13 +27,13 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
      * Which means, the first PreferencesModel sets this variable to 'true' in order to prevent the other Models
      * from loading the file again.
      */
-    private static boolean objexists = false;
+    private static boolean objectcreating = false;
     
     public PreferencesModel() {
 
-        if (!objexists) {
+        if (!objectcreating) {
 
-            objexists = true;
+            objectcreating = true;
             try {
 
                 File file = new File(PATH);
@@ -45,8 +45,8 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
                     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                     PreferencesModel obj = (PreferencesModel) jaxbUnmarshaller.unmarshal(file);
 
-                    musicEnabled = obj.getMusicEnabled();
-                    soundsEnabled = obj.getSoundsEnabled();
+                    musicEnabled = obj.isMusicEnabled();
+                    soundsEnabled = obj.isSoundsEnabled();
                 } else {
                     save();
                 }
@@ -54,17 +54,18 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
             } catch (Exception e) {
                 onException(e);
             }
+            objectcreating = false;
         }
 
 
     }
 
     @XmlElement
-    public boolean getMusicEnabled() {
+    public boolean isMusicEnabled() {
         return musicEnabled;
     }
     @XmlElement
-    public boolean getSoundsEnabled() {
+    public boolean isSoundsEnabled() {
         return soundsEnabled;
     }
     
@@ -103,6 +104,9 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
 
     @Override
     public String toString() {
-        return "Preferences:"+"\n\tMusic: "+musicEnabled+"\n\tSounds: "+soundsEnabled;
+        return "PreferencesModel{" +
+                "musicEnabled=" + musicEnabled +
+                ", soundsEnabled=" + soundsEnabled +
+                '}';
     }
 }

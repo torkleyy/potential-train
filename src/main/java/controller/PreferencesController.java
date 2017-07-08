@@ -10,10 +10,10 @@ public class PreferencesController {
         model = new PreferencesModel();
     }
     
-    public boolean getMusicEnabled() {
+    public boolean isMusicEnabled() {
         return model.isMusicEnabled();
     }
-    public boolean getSoundsEnabled() {
+    public boolean isSoundsEnabled() {
         return model.isSoundsEnabled();
     }
     

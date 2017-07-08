@@ -15,8 +15,4 @@ public class PreferencesView implements PreferencesObserver {
 
     }
 
-    @Override
-    public void onVolumeChanged(int volume) {
-
-    }
 }

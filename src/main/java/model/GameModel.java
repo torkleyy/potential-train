@@ -8,19 +8,23 @@ import question.Question;
 import database.DatabaseConnector;
 
 public class GameModel extends Observable<GameObserver> {
-	
+
+    private static final int POINTS_PER_QUESTION = 1;
+
     private final DatabaseConnector connector;
-    
-    private Question[] questionlist;
-    
+    private final Question[] questionlist;
+
+    private int currentquestion;
+    private int score;
 
     public GameModel() {
-        this.connector = new DatabaseConnector();
+        this.connector = DatabaseConnector.getInstance();
+        currentquestion = -1;
+        score = 0;
         Question[] all = connector.getAllQuestions();
         questionlist = new Question[all.length];
-        
-        
-        //Shuffle the Questions
+
+        // Shuffle the Questions
         int[] values = new int[all.length];
         Random r = new Random();
         for (int i = 0; i < all.length; i++) {
@@ -39,7 +43,39 @@ public class GameModel extends Observable<GameObserver> {
             values[index] = Integer.MAX_VALUE;
             questionlist[i] = all[index];
         }
-        //Shuffle complete.
-        
+        // Shuffle complete.
+
+    }
+
+    /**
+     * @return The next question in the list or null,
+     * if there are no more questions available
+     */
+    public Question getNextQuestion() {
+        currentquestion++;
+        if (currentquestion >= questionlist.length) {
+            return null;
+        }
+        return questionlist[currentquestion];
+    }
+
+    /**
+     * Registers the given answer. The id represents the index of the given
+     * answer in the question instance, which means the allowed range is 0-2.
+     * 
+     * @return true, if the given index is the index of the correct answer,
+     *         false otherwise.
+     */
+    public boolean registerAnswer(int index) {
+        if (questionlist[currentquestion].isCorrectAnswer(index)) {
+            //TODO Possibly do other things...
+            score += POINTS_PER_QUESTION;
+            return true;
+        }
+        return false;
+    }
+    
+    public int getScore() {
+        return score;
     }
 }

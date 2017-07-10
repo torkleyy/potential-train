@@ -5,7 +5,7 @@ import model.HighscoreEntry;
 import observe.HighscoreObserver;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class HighscoreView extends JFrame implements HighscoreObserver {
 
@@ -34,7 +34,9 @@ public class HighscoreView extends JFrame implements HighscoreObserver {
 
     @Override
     public void onError(String message) {
-
+        JOptionPane.showMessageDialog(this, "Es ist ein Fehler aufgetreten:\n" +
+                message+"\n\nDas Programm muss beendet werden.");
+        System.exit(-1);
     }
 
     @Override
@@ -44,13 +46,13 @@ public class HighscoreView extends JFrame implements HighscoreObserver {
 
     @Override
     public void onReceiveMessage(String message) {
-
+        JOptionPane.showMessageDialog(this, message);
     }
     /**
      * Create the frame.
      */
     public HighscoreView() {
-        controller = new HighscoreController();
+        controller = new HighscoreController(this);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);

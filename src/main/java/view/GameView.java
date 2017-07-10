@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameController;
+import jdk.nashorn.internal.scripts.JO;
 import observe.GameObserver;
 import question.Answer;
 import question.Question;
@@ -10,6 +11,8 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.*;
@@ -42,19 +45,12 @@ public class GameView extends JFrame implements GameObserver {
         });
     }
 
-    @Override
-    public void onRetrieveQuestion(Question q) {
-
-    }
 
     /**
      * Create the frame.
      */
     public GameView() {
-        controller = new GameController();
-
-        Question q = controller.getNextQuestion();
-        System.out.println("Frage: "+ q.toString());
+        controller = new GameController(this);
 
         setBounds(100, 100, 450, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,20 +59,38 @@ public class GameView extends JFrame implements GameObserver {
         btBild.setBounds(70,5,460,100);
         btBild.setText("JLabel");
         getContentPane().add(btBild);
-        lblQuestion=new Label("Frage");  
-        lblQuestion.setBounds(260,100,80,30);// setting button position 
+        lblQuestion=new Label("Frage", JLabel.CENTER);
+        lblQuestion.setBounds(0,100,600,30);// setting button position
         lblQuestion.setBackground(Color.YELLOW);
         getContentPane().add(lblQuestion);//adding button into frame  
         answer1 =new Button("Antwort 1");  
-        answer1.setBounds(200,150,200,50);// setting button position  
+        answer1.setBounds(200,150,200,50);// setting button position
+        answer1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.registerAnswer(0);
+            }
+        });
         getContentPane().add(answer1);//adding button into frame  
-        answer2=new Button("Antwort 2");  
-        answer2.setBounds(200,210,200,50);// setting button position  
+        answer2=new Button("Antwort 2");
+        answer2.setBounds(200,210,200,50);// setting button position
+        answer2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.registerAnswer(1);
+            }
+        });
         getContentPane().add(answer2);//adding button into frame  
         answer3=new Button("Antwort 3");  
-        answer3.setBounds(200,270,200,50);// setting button position  
+        answer3.setBounds(200,270,200,50);// setting button position
+        answer3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.registerAnswer(2);
+            }
+        });
         getContentPane().add(answer3);//adding button into frame
-        Button z=new Button("Zur�ck");
+        Button z=new Button("Zurueck");
         z.setBounds(10,320,80,25);// setting button position  
         getContentPane().add(z);//adding button into frame  
         setSize(600,400);//frame size 300 width and 300 height
@@ -84,22 +98,23 @@ public class GameView extends JFrame implements GameObserver {
         setVisible(true);//now frame will be visible, by default not visible
         getContentPane().setLayout(null);//no layout manager  
         setVisible(true);//now frame will be visible, by default not visible
-        
-        loadQuestion(q);
+
+        controller.requestQuestion();
     }
     
     private void loadQuestion(Question q) {
         lblQuestion.setText(q.getQuestion());
         Answer[] answers = q.getAnswers();
         answer1.setLabel(answers[0].toString());
-        answer1.setLabel(answers[1].toString());
-        answer1.setLabel(answers[2].toString());
+        answer2.setLabel(answers[1].toString());
+        answer3.setLabel(answers[2].toString());
     }
 
     @Override
     public void onError(String message) {
         JOptionPane.showMessageDialog(this, "Es ist ein Fehler aufgetreten:\n" +
                 message+"\n\nDas Programm muss beendet werden.");
+        System.exit(-1);
     }
 
     @Override
@@ -110,5 +125,15 @@ public class GameView extends JFrame implements GameObserver {
     @Override
     public void onAnswerWrong() {
 
+    }
+
+    @Override
+    public void onRetrieveQuestion(Question q) {
+        if (q == null) {
+            JOptionPane.showMessageDialog(this, "Du hast alle Fragen beantwortet!");
+            System.exit(0);
+        } else {
+            loadQuestion(q);
+        }
     }
 }

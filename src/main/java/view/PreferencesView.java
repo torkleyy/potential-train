@@ -1,5 +1,9 @@
 package view;
 
+import controller.PreferencesController;
+import model.Preferences;
+import observe.PreferencesObserver;
+
 import java.awt.Button;
 import java.awt.Checkbox;
 import java.awt.EventQueue;
@@ -8,16 +12,16 @@ import java.awt.Label;
 import java.awt.Toolkit;
 import java.io.File;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
-public class PreferencesView extends JFrame {
+public class PreferencesView extends JFrame implements PreferencesObserver {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+
+    private final PreferencesController controller;
 
     /**
      * Launch the application.
@@ -39,6 +43,8 @@ public class PreferencesView extends JFrame {
      * Create the frame.
      */
     public PreferencesView() {
+        controller = new PreferencesController(this);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         
@@ -71,5 +77,12 @@ public class PreferencesView extends JFrame {
         setSize(600,400);//frame size 300 width and 300 height  
         setLayout(null);//no layout manager  
         setVisible(true);//now frame will be visible, by default not visible  
+    }
+
+    @Override
+    public void onError(String message) {
+        JOptionPane.showMessageDialog(this, "Es ist ein Fehler aufgetreten:\n" +
+                message+"\n\nDas Programm muss beendet werden.");
+        System.exit(-1);
     }
 }

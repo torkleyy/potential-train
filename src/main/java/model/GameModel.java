@@ -3,6 +3,7 @@ package model;
 import java.util.Random;
 
 import observe.GameObserver;
+import observe.Notifier;
 import observe.Observable;
 import question.Question;
 import database.DatabaseConnector;
@@ -62,16 +63,29 @@ public class GameModel extends Observable<GameObserver> {
      * @return true, if the given index is the index of the correct answer,
      *         false otherwise.
      */
-    public boolean registerAnswer(int index) {
+    public void registerAnswer(int index) {
         if (questionlist[currentquestion].isCorrectAnswer(index)) {
             //TODO Possibly do other things...
             score += POINTS_PER_QUESTION;
-            return true;
+            sendNextQuestion();
         }
-        return false;
     }
-    
+
+    private void sendNextQuestion() {
+        final Question q = getNextQuestion();
+        notifyObservers(new Notifier<GameObserver>() {
+            @Override
+            public void notifyObject(GameObserver obj) {
+                obj.onRetrieveQuestion(q);
+            }
+        });
+    }
+
     public int getScore() {
         return score;
+    }
+
+    public void requestQuestion() {
+        sendNextQuestion();
     }
 }

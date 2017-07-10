@@ -1,13 +1,15 @@
 package controller;
 
 import model.PreferencesModel;
+import observe.PreferencesObserver;
 
 public class PreferencesController {
     
     private final PreferencesModel model;
     
-    public PreferencesController() {
+    public PreferencesController(PreferencesObserver observer) {
         model = new PreferencesModel();
+        model.addObserver(observer);
     }
     
     public boolean isMusicEnabled() {

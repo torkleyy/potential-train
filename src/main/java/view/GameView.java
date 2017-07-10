@@ -1,7 +1,6 @@
 package view;
 
 import controller.GameController;
-import jdk.nashorn.internal.scripts.JO;
 import observe.GameObserver;
 import question.Answer;
 import question.Question;

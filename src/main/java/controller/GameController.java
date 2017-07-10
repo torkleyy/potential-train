@@ -7,7 +7,7 @@ import question.Question;
 public class GameController {
     
     private GameModel model;
-    
+
     public GameController(GameObserver observer) {
         model = new GameModel();
         model.addObserver(observer);

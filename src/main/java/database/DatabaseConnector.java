@@ -15,6 +15,7 @@ import observe.Observable;
 import question.Answer;
 import question.Question;
 
+
 public class DatabaseConnector extends Observable<ErrorHandler> implements AutoCloseable {
 
     private final String DEFAULT_TABLE_NAME = "questions";
@@ -44,7 +45,6 @@ public class DatabaseConnector extends Observable<ErrorHandler> implements AutoC
 
     /**
      * Establishes a Connection to the Database
-     *
      */
     private Connection establishConnection() {
         try {

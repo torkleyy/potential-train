@@ -1,7 +1,6 @@
 package view;
 
 import controller.PreferencesController;
-import model.Preferences;
 import observe.PreferencesObserver;
 
 import java.awt.Button;

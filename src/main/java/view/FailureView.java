@@ -48,7 +48,7 @@ public class FailureView extends JFrame {
         Label l =new Label("Das war falsch, du Noob!");
         l.setBounds(225,100,200,30);
         add(l);
-        Button z=new Button("Zurück");  
+        Button z=new Button("Zur\u00fcck");
         z.setBounds(10,320,80,25);// setting button position  
         add(z);//adding button into frame  
         setSize(600,400);//frame size 300 width and 300 height  

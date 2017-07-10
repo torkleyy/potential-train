@@ -8,7 +8,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-public class HighscoreView extends JFrame {
+public class HighscoreView extends JFrame implements HighscoreObserver {
 
     /**
      * 

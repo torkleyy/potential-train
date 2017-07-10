@@ -59,7 +59,7 @@ public class PreferencesView extends JFrame {
         Button b=new Button("Credits");  
         b.setBounds(260,250,80,30);// setting button position  
         add(b);//adding button into frame  
-        Button z=new Button("Zurück");  
+        Button z=new Button("Zurï¿½ck");  
         z.setBounds(10,320,80,25);// setting button position  
         add(z);//adding button into frame  
         Checkbox m = new Checkbox(); 

@@ -9,13 +9,13 @@ import database.DatabaseConnector;
 
 public class GameModel extends Observable<GameObserver> {
 
+    private static final int POINTS_PER_QUESTION = 1;
+
     private final DatabaseConnector connector;
+    private final Question[] questionlist;
 
-    private Question[] questionlist;
     private int currentquestion;
-
     private int score;
-    private final int POINTS_PER_QUESTION = 1;
 
     public GameModel() {
         this.connector = DatabaseConnector.getInstance();

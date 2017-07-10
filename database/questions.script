@@ -57,4 +57,4 @@ INSERT INTO QUESTIONS VALUES(6,'Was ist Herr Ziegelschmidts lieblings Handymarke
 INSERT INTO QUESTIONS VALUES(7,'Wer ist die beliebteste Kunstlehrerin?','Frau Barufke','Frau M\u00fcller','Herr Rother')
 INSERT INTO QUESTIONS VALUES(8,'Wer ist der beliebteste Lehrer aller Zeiten am GGM?','Herr M\u00fchl','Herr Kohlmann','Herr Schraml')
 INSERT INTO QUESTIONS VALUES(9,'Wieviele Kinder hat Frau Zimmermann?','9','7','5')
-INSERT INTO QUESTIONS VALUES(10,'Herr Kroegers lieblings Fortbewegungsmittel ist, dass...','Fahrrad','Skateboard','Auto')
+INSERT INTO QUESTIONS VALUES(10,'Herr Kroegers lieblings Fortbewegungsmittel ist das...','Fahrrad','Skateboard','Auto')

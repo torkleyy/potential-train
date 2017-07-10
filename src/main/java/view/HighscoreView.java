@@ -1,5 +1,7 @@
 package view;
 
+import controller.HighscoreController;
+import model.HighscoreEntry;
 import observe.HighscoreObserver;
 
 import java.awt.EventQueue;
@@ -38,4 +40,18 @@ public class HighscoreView extends JFrame {
         
     }
 
+    @Override
+    public void onError(String message) {
+
+    }
+
+    @Override
+    public void onRetrieveScores(HighscoreEntry[] entries) {
+
+    }
+
+    @Override
+    public void onReceiveMessage(String message) {
+
+    }
 }

@@ -9,10 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import observe.ErrorHandler;
+import observe.Notifier;
+import observe.Observable;
 import question.Answer;
 import question.Question;
 
-public class DatabaseConnector implements AutoCloseable {
+
+public class DatabaseConnector extends Observable<ErrorHandler> implements AutoCloseable {
 
     private final String DEFAULT_TABLE_NAME = "questions";
     private final String FILE_LOCATION = "database"+File.separator;
@@ -21,10 +25,11 @@ public class DatabaseConnector implements AutoCloseable {
     
     private static final DatabaseConnector instance = new DatabaseConnector();
 
-    private Connection con;
+    private final Connection con;
 
     private DatabaseConnector() {
-        establishConnection();
+
+        con = establishConnection();
     }
 
     public void setupTable(Statement stmt) throws SQLException {
@@ -41,12 +46,10 @@ public class DatabaseConnector implements AutoCloseable {
 
     /**
      * Establishes a Connection to the Database
-     *
-     * @param databasename The Name of the database to connect to
-     * @return true, if the connection was successfully established
-     * or false, if an Exception occurred
      */
     private void establishConnection() {
+     */
+    private Connection establishConnection() {
         try {
             if (con != null && !con.isClosed()) {
                 con.close();
@@ -54,10 +57,17 @@ public class DatabaseConnector implements AutoCloseable {
 
             Class.forName("org.hsqldb.jdbcDriver").newInstance();
 
-            con = DriverManager.getConnection("jdbc:hsqldb:file:"+FILE_LOCATION+DEFAULT_TABLE_NAME);
+            return DriverManager.getConnection("jdbc:hsqldb:file:"+FILE_LOCATION+DEFAULT_TABLE_NAME);
 
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
+            notifyObservers(new Notifier<ErrorHandler>() {
+                @Override
+                public void notifyObject(ErrorHandler obj) {
+                    obj.onError("Die Verbindung zur Fragendatenbank konnte nicht hergestellt werden.");
+                }
+            });
+            return null;
         }
     }
 
@@ -156,7 +166,13 @@ public class DatabaseConnector implements AutoCloseable {
     }
 
     private void onSQLException(SQLException e) {
-        e.printStackTrace();//TODO uncool
+        e.printStackTrace();
+        notifyObservers(new Notifier<ErrorHandler>() {
+            @Override
+            public void notifyObject(ErrorHandler obj) {
+                obj.onError("Es trat ein Fehler bei dem Zugriff auf die Fragendatenbank auf.");
+            }
+        });
     }
     
     public static DatabaseConnector getInstance() {

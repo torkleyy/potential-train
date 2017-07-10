@@ -99,6 +99,11 @@ public class GameView extends JFrame implements GameObserver {
     }
 
     @Override
+    public void onRetrieveQuestion(Question q) {
+
+    }
+
+    @Override
     public void onAnswerCorrect() {
 
     }

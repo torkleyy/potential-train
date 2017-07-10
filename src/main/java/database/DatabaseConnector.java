@@ -47,8 +47,6 @@ public class DatabaseConnector extends Observable<ErrorHandler> implements AutoC
     /**
      * Establishes a Connection to the Database
      */
-    private void establishConnection() {
-     */
     private Connection establishConnection() {
         try {
             if (con != null && !con.isClosed()) {

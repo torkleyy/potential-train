@@ -9,6 +9,10 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 
 import javax.swing.*;
@@ -20,6 +24,7 @@ public class PreferencesView extends JFrame implements PreferencesObserver {
      */
     private static final long serialVersionUID = 1L;
 
+    private final PreferencesView view = this;
     private final PreferencesController controller;
 
     /**
@@ -56,7 +61,7 @@ public class PreferencesView extends JFrame implements PreferencesObserver {
         o.setBounds(260,100,80,30);// setting button position  
         add(o);//adding button into frame
         Label l=new Label("Musik");  
-        l.setBounds(250,150,80,30);// setting button position  
+        l.setBounds(250,150,80,30);// setting button position
         add(l);//adding button into frame  
         Label a=new Label("Sound");  
         a.setBounds(250,200,80,30);// setting button position  
@@ -64,14 +69,37 @@ public class PreferencesView extends JFrame implements PreferencesObserver {
         Button b=new Button("Credits");  
         b.setBounds(260,250,80,30);// setting button position  
         add(b);//adding button into frame  
-        Button z=new Button("Zur�ck");  
-        z.setBounds(10,320,80,25);// setting button position  
+        Button z=new Button("Zur\u00fcck");
+        z.setBounds(10,320,80,25);// setting button position
+        z.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainView main = new MainView();
+                main.setVisible(true);
+                view.setVisible(false);
+                view.dispose();
+            }
+        });
         add(z);//adding button into frame  
-        Checkbox m = new Checkbox(); 
+        final Checkbox m = new Checkbox();
         m.setBounds(330,140,50,50);
+        m.setState(controller.isMusicEnabled());
+        m.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                controller.setMusicEnabled(m.getState());
+            }
+        });
         add(m);
-        Checkbox s = new Checkbox(); 
+        final Checkbox s = new Checkbox();
         s.setBounds(330,190,50,50);
+        s.setState(controller.isSoundsEnabled());
+        s.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                controller.setSoundsEnabled(s.getState());
+            }
+        });
         add(s);
         setSize(600,400);//frame size 300 width and 300 height  
         setLayout(null);//no layout manager  

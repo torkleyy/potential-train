@@ -18,11 +18,12 @@ import javax.swing.*;
 
 public class GameView extends JFrame implements GameObserver {
 
-    private final GameController controller;
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+    private final GameView view = this;
+    private final GameController controller;
     
     private Label lblQuestion;
     private Button answer1;
@@ -90,12 +91,20 @@ public class GameView extends JFrame implements GameObserver {
         });
         getContentPane().add(answer3);//adding button into frame
         Button z=new Button("Zurueck");
-        z.setBounds(10,320,80,25);// setting button position  
+        z.setBounds(10,320,80,25);// setting button position
+        z.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainView main = new MainView();
+                main.setVisible(true);
+                view.setVisible(false);
+                view.dispose();
+            }
+        });
         getContentPane().add(z);//adding button into frame  
         setSize(600,400);//frame size 300 width and 300 height
-        setLayout(null);//no layout manager  
-        setVisible(true);//now frame will be visible, by default not visible
-        getContentPane().setLayout(null);//no layout manager  
+        setLayout(null);//no layout manager
+        getContentPane().setLayout(null);//no layout manager
         setVisible(true);//now frame will be visible, by default not visible
 
         controller.requestQuestion();
@@ -123,7 +132,10 @@ public class GameView extends JFrame implements GameObserver {
 
     @Override
     public void onAnswerWrong() {
-
+        FailureView failure = new FailureView();
+        failure.setVisible(true);
+        this.setVisible(false);
+        this.dispose();
     }
 
     @Override

@@ -67,7 +67,20 @@ public class GameModel extends Observable<GameObserver> {
         if (questionlist[currentquestion].isCorrectAnswer(index)) {
             //TODO Possibly do other things...
             score += POINTS_PER_QUESTION;
+            notifyObservers(new Notifier<GameObserver>() {
+                @Override
+                public void notifyObject(GameObserver obj) {
+                    obj.onAnswerCorrect();
+                }
+            });
             sendNextQuestion();
+        } else {
+            notifyObservers(new Notifier<GameObserver>() {
+                @Override
+                public void notifyObject(GameObserver obj) {
+                    obj.onAnswerWrong();
+                }
+            });
         }
     }
 

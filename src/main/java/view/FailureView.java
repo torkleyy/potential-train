@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -18,6 +20,7 @@ public class FailureView extends JFrame {
      */
     private static final long serialVersionUID = 1L;
 
+    private final FailureView view = this;
     /**
      * Launch the application.
      */
@@ -49,7 +52,16 @@ public class FailureView extends JFrame {
         l.setBounds(225,100,200,30);
         add(l);
         Button z=new Button("Zur\u00fcck");
-        z.setBounds(10,320,80,25);// setting button position  
+        z.setBounds(10,320,80,25);// setting button position
+        z.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainView main = new MainView();
+                main.setVisible(true);
+                view.setVisible(false);
+                view.dispose();
+            }
+        });
         add(z);//adding button into frame  
         setSize(600,400);//frame size 300 width and 300 height  
         setLayout(null);//no layout manager   

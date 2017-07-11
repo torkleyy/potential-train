@@ -60,13 +60,9 @@ public class GameModel extends Observable<GameObserver> {
     /**
      * Registers the given answer. The id represents the index of the given
      * answer in the question instance, which means the allowed range is 0-2.
-     *
-     * @return true, if the given index is the index of the correct answer,
-     * false otherwise.
      */
     public void registerAnswer(int index) {
         if (questionlist[currentquestion].isCorrectAnswer(index)) {
-            //TODO Possibly do other things...
             score += POINTS_PER_QUESTION;
             notifyObservers(new Notifier<GameObserver>() {
                 @Override

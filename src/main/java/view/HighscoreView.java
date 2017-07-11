@@ -1,11 +1,13 @@
 package view;
 
-import controller.HighscoreController;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import model.HighscoreEntry;
 import observe.HighscoreObserver;
-
-import javax.swing.*;
-import java.awt.*;
+import controller.HighscoreController;
 
 public class HighscoreView extends JFrame implements HighscoreObserver {
 

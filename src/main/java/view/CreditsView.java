@@ -1,42 +1,33 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Frame;
 
-public class CreditsView extends JFrame {
+import javax.swing.JDialog;
+import javax.swing.JTextPane;
 
+public class CreditsView extends JDialog {
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
 
     /**
-     * Launch the application.
+     * Create the dialog.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    CreditsView frame = new CreditsView();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     */
-    public CreditsView() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public CreditsView(Frame parent) {
+        super (parent);
+        setTitle("Credits");
         setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
+
+        setModal(true);
+
+        JTextPane txtpnLeitungUndOrganisation = new JTextPane();
+        txtpnLeitungUndOrganisation.setEditable(false);
+        txtpnLeitungUndOrganisation.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        txtpnLeitungUndOrganisation.setText("Leitung und Organisation:\r\nSchaller Thomas\r\n\r\nProgrammierung der Logik:\r\nBudeus Markus\r\n\r\nProgrammierung der Oberfl\u00E4che:\r\nMeiburg Lara\r\nNeumair Helena\r\n\r\nDesign von Oberfl\u00E4che und Logo:\r\nEggert Melanie");
+        txtpnLeitungUndOrganisation.setBounds(10, 11, 414, 239);
+        getContentPane().add(txtpnLeitungUndOrganisation);
     }
+
 }

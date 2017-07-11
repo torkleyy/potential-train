@@ -73,10 +73,8 @@ public class PreferencesView extends JFrame implements PreferencesObserver {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreditsView credits = new CreditsView();
+                CreditsView credits = new CreditsView(PreferencesView.this);
                 credits.setVisible(true);
-                PreferencesView.this.setVisible(false);
-                PreferencesView.this.dispose();
             }
         });
         add(b);//adding button into frame  
@@ -110,8 +108,7 @@ public class PreferencesView extends JFrame implements PreferencesObserver {
             public void itemStateChanged(ItemEvent e) {
                 controller.setSoundsEnabled(s.getState());
             }
-        });
-        add(s);
+        });        add(s);
         setSize(600, 400);//frame size 300 width and 300 height
         setLayout(null);//no layout manager  
         setVisible(true);//now frame will be visible, by default not visible  

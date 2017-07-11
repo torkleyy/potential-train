@@ -1,6 +1,5 @@
 package database;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import question.Question;

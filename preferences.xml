@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <preferences>
-    <musicEnabled>true</musicEnabled>
+    <musicEnabled>false</musicEnabled>
     <soundsEnabled>false</soundsEnabled>
 </preferences>

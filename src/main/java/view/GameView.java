@@ -1,16 +1,23 @@
 package view;
 
-import controller.GameController;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import observe.GameObserver;
 import potentialtrain.Main;
 import question.Answer;
 import question.Question;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
+import controller.GameController;
 
 public class GameView extends JFrame implements GameObserver {
 
@@ -91,7 +98,7 @@ public class GameView extends JFrame implements GameObserver {
             }
         });
         getContentPane().add(answer3);//adding button into frame
-        Button z = new Button("Zurueck");
+        Button z = new Button("Zur\u00fcck");
         z.setBounds(10, 320, 80, 25);// setting button position
         z.addActionListener(new ActionListener() {
             @Override

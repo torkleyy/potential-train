@@ -1,12 +1,18 @@
 package view;
 
-import potentialtrain.Main;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Button;
+import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import potentialtrain.Main;
 
 public class FailureView extends JFrame {
 

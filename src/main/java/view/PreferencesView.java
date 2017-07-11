@@ -1,16 +1,24 @@
 package view;
 
-import controller.PreferencesController;
-import observe.PreferencesObserver;
-import potentialtrain.Main;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Button;
+import java.awt.Checkbox;
+import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.File;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import observe.PreferencesObserver;
+import potentialtrain.Main;
+import controller.PreferencesController;
 
 public class PreferencesView extends JFrame implements PreferencesObserver {
 
@@ -65,10 +73,8 @@ public class PreferencesView extends JFrame implements PreferencesObserver {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreditsView credits = new CreditsView();
+                CreditsView credits = new CreditsView(PreferencesView.this);
                 credits.setVisible(true);
-                PreferencesView.this.setVisible(false);
-                PreferencesView.this.dispose();
             }
         });
         add(b);//adding button into frame  
@@ -102,8 +108,7 @@ public class PreferencesView extends JFrame implements PreferencesObserver {
             public void itemStateChanged(ItemEvent e) {
                 controller.setSoundsEnabled(s.getState());
             }
-        });
-        add(s);
+        });        add(s);
         setSize(600, 400);//frame size 300 width and 300 height
         setLayout(null);//no layout manager  
         setVisible(true);//now frame will be visible, by default not visible  

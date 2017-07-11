@@ -1,27 +1,25 @@
 package model;
 
-import java.util.Random;
-
+import database.DatabaseConnector;
 import observe.GameObserver;
+import observe.Notifier;
 import observe.Observable;
 import question.Question;
-import database.DatabaseConnector;
+
+import java.util.Random;
 
 public class GameModel extends Observable<GameObserver> {
 
-    private static final int POINTS_PER_QUESTION = 1;
-
-    private final DatabaseConnector connector;
-    private final Question[] questionlist;
-
+    private Question[] questionlist;
     private int currentquestion;
+
     private int score;
+    private final int POINTS_PER_QUESTION = 1;
 
     public GameModel() {
-        this.connector = DatabaseConnector.getInstance();
         currentquestion = -1;
         score = 0;
-        Question[] all = connector.getAllQuestions();
+        Question[] all = DatabaseConnector.getInstance().getAllQuestions();
         questionlist = new Question[all.length];
 
         // Shuffle the Questions
@@ -62,20 +60,42 @@ public class GameModel extends Observable<GameObserver> {
     /**
      * Registers the given answer. The id represents the index of the given
      * answer in the question instance, which means the allowed range is 0-2.
-     * 
-     * @return true, if the given index is the index of the correct answer,
-     *         false otherwise.
      */
-    public boolean registerAnswer(int index) {
+    public void registerAnswer(int index) {
         if (questionlist[currentquestion].isCorrectAnswer(index)) {
-            //TODO Possibly do other things...
             score += POINTS_PER_QUESTION;
-            return true;
+            notifyObservers(new Notifier<GameObserver>() {
+                @Override
+                public void notifyObject(GameObserver obj) {
+                    obj.onAnswerCorrect();
+                }
+            });
+            sendNextQuestion();
+        } else {
+            notifyObservers(new Notifier<GameObserver>() {
+                @Override
+                public void notifyObject(GameObserver obj) {
+                    obj.onAnswerWrong();
+                }
+            });
         }
-        return false;
     }
-    
+
+    private void sendNextQuestion() {
+        final Question q = getNextQuestion();
+        notifyObservers(new Notifier<GameObserver>() {
+            @Override
+            public void notifyObject(GameObserver obj) {
+                obj.onRetrieveQuestion(q);
+            }
+        });
+    }
+
     public int getScore() {
         return score;
+    }
+
+    public void requestQuestion() {
+        sendNextQuestion();
     }
 }

@@ -17,6 +17,7 @@ public class Answer {
 
     /**
      * Returns the ID of this answer
+     *
      * @return This answer's id
      */
     public int getId() {
@@ -25,6 +26,7 @@ public class Answer {
 
     /**
      * Returns the String representation of this answer
+     *
      * @return This answer's description
      */
     @Override

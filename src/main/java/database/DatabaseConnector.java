@@ -1,51 +1,46 @@
 package database;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
 import observe.ErrorHandler;
 import observe.Notifier;
 import observe.Observable;
 import question.Answer;
 import question.Question;
 
+import java.io.File;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class DatabaseConnector extends Observable<ErrorHandler> implements AutoCloseable {
 
     private final String DEFAULT_TABLE_NAME = "questions";
-    private final String FILE_LOCATION = "database"+File.separator;
+    private final String FILE_LOCATION = "database" + File.separator;
     private final String COLUMN_QUESTION = "Question";
-    private final String[] COLUMN_ANSWER = new String[] { "Answer1", "Answer2", "Answer3" };
-    
+    private final String[] COLUMN_ANSWER = new String[]{"Answer1", "Answer2", "Answer3"};
+
     private static final DatabaseConnector instance = new DatabaseConnector();
 
     private final Connection con;
 
     private DatabaseConnector() {
-
         con = establishConnection();
     }
 
     public void setupTable(Statement stmt) throws SQLException {
         System.out.println("Creating database table!");
         String create_str;
-        create_str = "CREATE TABLE "+DEFAULT_TABLE_NAME+" ( " +
+        create_str = "CREATE TABLE " + DEFAULT_TABLE_NAME + " ( " +
                 "Question_Key INTEGER NOT NULL PRIMARY KEY IDENTITY, " +
-                COLUMN_QUESTION + " VARCHAR(255), "  +
-                COLUMN_ANSWER[0] + " VARCHAR(255), "  +
-                COLUMN_ANSWER[1] + " VARCHAR(255), "  +
+                COLUMN_QUESTION + " VARCHAR(255), " +
+                COLUMN_ANSWER[0] + " VARCHAR(255), " +
+                COLUMN_ANSWER[1] + " VARCHAR(255), " +
                 COLUMN_ANSWER[2] + " VARCHAR(255))";
         stmt.executeUpdate(create_str);
     }
 
     /**
      * Establishes a Connection to the Database
-     *
      */
     private Connection establishConnection() {
         try {
@@ -55,7 +50,7 @@ public class DatabaseConnector extends Observable<ErrorHandler> implements AutoC
 
             Class.forName("org.hsqldb.jdbcDriver").newInstance();
 
-            return DriverManager.getConnection("jdbc:hsqldb:file:"+FILE_LOCATION+DEFAULT_TABLE_NAME);
+            return DriverManager.getConnection("jdbc:hsqldb:file:" + FILE_LOCATION + DEFAULT_TABLE_NAME);
 
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -113,8 +108,8 @@ public class DatabaseConnector extends Observable<ErrorHandler> implements AutoC
             Statement stmt = con.createStatement();
             stmt.executeUpdate(
                     "DELETE FROM " + DEFAULT_TABLE_NAME
-                    + "WHERE "
-                    + "(" + COLUMN_QUESTION + "='" + q.getQuestion() + "');");
+                            + "WHERE "
+                            + "(" + COLUMN_QUESTION + "='" + q.getQuestion() + "');");
             stmt.close();
         } catch (SQLException e) {
             onSQLException(e);
@@ -147,9 +142,9 @@ public class DatabaseConnector extends Observable<ErrorHandler> implements AutoC
 
             stmt.executeUpdate(
                     "INSERT INTO " + DEFAULT_TABLE_NAME
-                    + "(" + COLUMN_QUESTION + ", " + COLUMN_ANSWER[0] + ", " + COLUMN_ANSWER[1] + ", " + COLUMN_ANSWER[2] + ")"
-                    + "VALUES "
-                    + "('" + q.getQuestion() + "', '" + answer[0] + "', '" + answer[1] + "', '" + answer[2] + "');");
+                            + "(" + COLUMN_QUESTION + ", " + COLUMN_ANSWER[0] + ", " + COLUMN_ANSWER[1] + ", " + COLUMN_ANSWER[2] + ")"
+                            + "VALUES "
+                            + "('" + q.getQuestion() + "', '" + answer[0] + "', '" + answer[1] + "', '" + answer[2] + "');");
             stmt.close();
         } catch (SQLException e) {
             onSQLException(e);
@@ -172,7 +167,8 @@ public class DatabaseConnector extends Observable<ErrorHandler> implements AutoC
             }
         });
     }
-    
+
+
     public static DatabaseConnector getInstance() {
         return instance;
     }

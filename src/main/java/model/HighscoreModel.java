@@ -1,17 +1,12 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import observe.HighscoreObserver;
 import observe.Notifier;
 import observe.Observable;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HighscoreModel extends Observable<HighscoreObserver> {
 
@@ -57,12 +52,13 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
             onException(e);
         }
     }
-    
+
     /**
      * You cannot add Entries that contain the CharSequence "::"
      * If you attempt to add an entry which contains this sequence,
      * a message will be sent to the view.
-     * @param name The name of the participant
+     *
+     * @param name  The name of the participant
      * @param score The score of the participant
      */
     public void addEntry(String name, int score) {
@@ -70,7 +66,7 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
             notifyObservers(new Notifier<HighscoreObserver>() {
                 @Override
                 public void notifyObject(HighscoreObserver obj) {
-                    obj.onReceiveMessage("Der Name darf die Zeichenfolge \""+SEPARATOR+"\" nicht enthalten.");
+                    obj.onReceiveMessage("Der Name darf die Zeichenfolge \"" + SEPARATOR + "\" nicht enthalten.");
                 }
             });
             return;
@@ -80,27 +76,27 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
         if (entries.size() == 0) {
             entries.add(entry);
         } else {
-            for (int i = 0; i < entries.size()+1; i++) {
-                
+            for (int i = 0; i < entries.size() + 1; i++) {
+
                 if (i == entries.size()) {
                     if (i < MAX_ENTRIES) {
                         entries.add(entry);
                     }
                     break;
                 }
-                
+
                 if (entries.get(i).getScore() < score) {
                     entries.add(i, entry);
                     break;
                 }
             }
-            
+
             if (entries.size() > MAX_ENTRIES) {
                 entries.remove(MAX_ENTRIES);
             }
         }
     }
-    
+
     /**
      * Returns an Array of all HighscoreEntries in this list.
      */
@@ -108,7 +104,7 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
         HighscoreEntry[] list = new HighscoreEntry[entries.size()];
         return entries.toArray(list);
     }
-    
+
     /**
      * Writes the current highscores into a file
      */
@@ -119,10 +115,10 @@ public class HighscoreModel extends Observable<HighscoreObserver> {
                 f.delete();
             }
             f.createNewFile();
-            
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-            for (HighscoreEntry entry: entries) {
-                writer.write(entry.getName() + SEPARATOR + entry.getScore()+"\n");
+            for (HighscoreEntry entry : entries) {
+                writer.write(entry.getName() + SEPARATOR + entry.getScore() + "\n");
             }
             writer.close();
 

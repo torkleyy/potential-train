@@ -2,33 +2,30 @@ package view;
 
 import controller.GameController;
 import observe.GameObserver;
+import potentialtrain.Main;
 import question.Answer;
 import question.Question;
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.Toolkit;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.*;
-
 public class GameView extends JFrame implements GameObserver {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    private final GameView view = this;
     private final GameController controller;
-    
-    private Label lblQuestion;
+
+    private JLabel lblScore;
+    private JLabel lblQuestion;
     private Button answer1;
     private Button answer2;
     private Button answer3;
+
     /**
      * Launch the application.
      */
@@ -54,17 +51,21 @@ public class GameView extends JFrame implements GameObserver {
 
         setBounds(100, 100, 450, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Image image = Toolkit.getDefaultToolkit().createImage("H:"+File.separator+"LehrerTriviaQuiz"+File.separator+"logo.jpg");
-        JLabel btBild= new JLabel(new ImageIcon(image));
-        btBild.setBounds(70,5,460,100);
+        Image image = Toolkit.getDefaultToolkit().createImage(Main.LOGO_PATH);
+        JLabel btBild = new JLabel(new ImageIcon(image));
+        btBild.setBounds(70, 5, 460, 100);
         btBild.setText("JLabel");
         getContentPane().add(btBild);
-        lblQuestion=new Label("Frage", JLabel.CENTER);
-        lblQuestion.setBounds(0,100,600,30);// setting button position
+        lblScore = new JLabel();
+        lblScore.setBounds(460, 240, 300, 10);
+        lblScore.setText("Punkte: 0");
+        getContentPane().add(lblScore);
+        lblQuestion = new JLabel("Frage", JLabel.CENTER);
+        lblQuestion.setBounds(0, 100, 600, 30);// setting button position
         lblQuestion.setBackground(Color.YELLOW);
         getContentPane().add(lblQuestion);//adding button into frame  
-        answer1 =new Button("Antwort 1");  
-        answer1.setBounds(200,150,200,50);// setting button position
+        answer1 = new Button("Antwort 1");
+        answer1.setBounds(200, 150, 200, 50);// setting button position
         answer1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,8 +73,8 @@ public class GameView extends JFrame implements GameObserver {
             }
         });
         getContentPane().add(answer1);//adding button into frame  
-        answer2=new Button("Antwort 2");
-        answer2.setBounds(200,210,200,50);// setting button position
+        answer2 = new Button("Antwort 2");
+        answer2.setBounds(200, 210, 200, 50);// setting button position
         answer2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,8 +82,8 @@ public class GameView extends JFrame implements GameObserver {
             }
         });
         getContentPane().add(answer2);//adding button into frame  
-        answer3=new Button("Antwort 3");  
-        answer3.setBounds(200,270,200,50);// setting button position
+        answer3 = new Button("Antwort 3");
+        answer3.setBounds(200, 270, 200, 50);// setting button position
         answer3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,26 +91,26 @@ public class GameView extends JFrame implements GameObserver {
             }
         });
         getContentPane().add(answer3);//adding button into frame
-        Button z=new Button("Zurueck");
-        z.setBounds(10,320,80,25);// setting button position
+        Button z = new Button("Zurueck");
+        z.setBounds(10, 320, 80, 25);// setting button position
         z.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainView main = new MainView();
                 main.setVisible(true);
-                view.setVisible(false);
-                view.dispose();
+                GameView.this.setVisible(false);
+                GameView.this.dispose();
             }
         });
         getContentPane().add(z);//adding button into frame  
-        setSize(600,400);//frame size 300 width and 300 height
+        setSize(600, 400);//frame size 300 width and 300 height
         setLayout(null);//no layout manager
         getContentPane().setLayout(null);//no layout manager
         setVisible(true);//now frame will be visible, by default not visible
 
         controller.requestQuestion();
     }
-    
+
     private void loadQuestion(Question q) {
         lblQuestion.setText(q.getQuestion());
         Answer[] answers = q.getAnswers();
@@ -121,13 +122,13 @@ public class GameView extends JFrame implements GameObserver {
     @Override
     public void onError(String message) {
         JOptionPane.showMessageDialog(this, "Es ist ein Fehler aufgetreten:\n" +
-                message+"\n\nDas Programm muss beendet werden.");
+                message + "\n\nDas Programm muss beendet werden.");
         System.exit(-1);
     }
 
     @Override
     public void onAnswerCorrect() {
-
+        lblScore.setText("Punkte: " + controller.getScore());
     }
 
     @Override

@@ -2,10 +2,9 @@ package controller;
 
 import model.GameModel;
 import observe.GameObserver;
-import question.Question;
 
 public class GameController {
-    
+
     private GameModel model;
 
     public GameController(GameObserver observer) {
@@ -18,16 +17,18 @@ public class GameController {
      * When the method registerAnswer is called with the correct answer index, the
      * next Question will automatically be sent.
      */
-    public void requestQuestion() { model.requestQuestion(); }
+    public void requestQuestion() {
+        model.requestQuestion();
+    }
 
     public int getScore() {
         return model.getScore();
     }
 
-    public void registerAnswer (int id) {
+    public void registerAnswer(int id) {
         model.registerAnswer(id);
     }
-    
+
     public void addObserver(GameObserver observer) {
         model.addObserver(observer);
     }

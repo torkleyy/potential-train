@@ -1,24 +1,21 @@
 package model;
 
-import java.io.*;
-
 import observe.Notifier;
 import observe.Observable;
 import observe.PreferencesObserver;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class PreferencesModel extends Observable<PreferencesObserver> {
 
     private Preferences prefs;
     private final String PATH = "preferences.xml";
 
-    
+
     public PreferencesModel() {
         try {
             File file = new File(PATH);
@@ -42,21 +39,23 @@ public class PreferencesModel extends Observable<PreferencesObserver> {
     public boolean isMusicEnabled() {
         return prefs.isMusicEnabled();
     }
+
     public boolean isSoundsEnabled() {
         return prefs.isSoundsEnabled();
     }
-    
+
     public void setMusicEnabled(boolean enabled) {
         prefs.setMusicEnabled(enabled);
     }
+
     public void setSoundsEnabled(boolean enabled) {
         prefs.setSoundsEnabled(enabled);
     }
 
-    
+
     public void save() {
         try {
-            JAXBContext  contextObj = JAXBContext.newInstance(Preferences.class);
+            JAXBContext contextObj = JAXBContext.newInstance(Preferences.class);
             Marshaller marshallerObj = contextObj.createMarshaller();
 
             marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

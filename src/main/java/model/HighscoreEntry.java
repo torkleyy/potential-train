@@ -1,18 +1,19 @@
 package model;
 
 public class HighscoreEntry {
-    
+
     private final String name;
     private final int score;
-    
+
     HighscoreEntry(String name, int score) {
         this.name = name;
         this.score = score;
     }
-    
+
     public String getName() {
         return name;
     }
+
     public int getScore() {
         return score;
     }

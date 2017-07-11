@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Preferences {
 
-    private boolean musicEnabled  = true;
+    private boolean musicEnabled = true;
     private boolean soundsEnabled = true;
 
     public Preferences() {
@@ -17,6 +17,7 @@ public class Preferences {
     public boolean isMusicEnabled() {
         return musicEnabled;
     }
+
     @XmlElement
     public boolean isSoundsEnabled() {
         return soundsEnabled;
@@ -25,6 +26,7 @@ public class Preferences {
     public void setMusicEnabled(boolean enabled) {
         musicEnabled = enabled;
     }
+
     public void setSoundsEnabled(boolean enabled) {
         soundsEnabled = enabled;
     }
